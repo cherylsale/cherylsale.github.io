@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cheryl Sale — Data Science Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0f2342;
+      --blue: #1a3f72;
+      --accent: #3b82c4;
+      --gold: #c8a84b;
+      --cream: #f8f4ef;
+      --warm-white: #fdfbf8;
+      --text: #1c2b3a;
+      --muted: #6b7f92;
+      --card-bg: #ffffff;
+      --border: #e4ddd4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--warm-white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(253, 251, 248, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--navy); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      gap: 4rem;
+      background: var(--warm-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      right: -5%;
+      width: 55%;
+      height: 110%;
+      background: radial-gradient(ellipse at 70% 40%, #dbe8f5 0%, #eef4fa 40%, transparent 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-text { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.1s forwards;
+    }
+
+    .hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 5vw, 4.5rem);
+      line-height: 1.05;
+      color: var(--navy);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.25s forwards;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 440px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.55s forwards;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      background: var(--navy);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      border-radius: 3px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--blue); transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      border: 1.5px solid var(--navy);
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      border-radius: 3px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-outline:hover { background: var(--navy); color: #fff; transform: translateY(-1px); }
+
+    /* Hero visual panel */
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeIn 1s 0.6s forwards;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      box-shadow: 0 2px 12px rgba(15,35,66,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(15,35,66,0.1); }
+
+    .stat-icon {
+      width: 44px; height: 44px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #dbe8f5, #c3d8f0);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.2rem; }
+    .stat-value { font-size: 1.1rem; font-weight: 600; color: var(--navy); }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 4rem; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .divider {
+      width: 48px;
+      height: 3px;
+      background: var(--gold);
+      margin: 1.5rem 0 3rem;
+      border-radius: 2px;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+      align-items: start;
+      max-width: 1100px;
+    }
+
+    .about-body {
+      font-size: 1rem;
+      color: #3d5166;
+      line-height: 1.85;
+    }
+
+    .about-body p + p { margin-top: 1.2rem; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .skill-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.65rem 1rem;
+      font-size: 0.83rem;
+      font-weight: 500;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .skill-pill::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .skills-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--navy);
+      margin-bottom: 1.2rem;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--warm-white); }
+
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 0;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.8rem;
+      margin-top: 3rem;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(15,35,66,0.1); }
+
+    .project-card-top {
+      padding: 2rem 2rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #f0f6fc 0%, #e8f1f9 100%);
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-category {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .project-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--navy);
+      line-height: 1.25;
+    }
+
+    .project-body { padding: 1.5rem 2rem 2rem; flex: 1; display: flex; flex-direction: column; }
+
+    .project-desc {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      background: #eaf2fb;
+      color: var(--blue);
+      border: 1px solid #c8ddf0;
+    }
+
+    .project-links { display: flex; gap: 0.8rem; }
+
+    .project-link {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--navy); }
+
+    /* Coming soon card */
+    .project-card.coming-soon {
+      border-style: dashed;
+      opacity: 0.6;
+    }
+    .project-card.coming-soon .project-card-top {
+      background: linear-gradient(135deg, #f5f5f5, #eeeeee);
+    }
+    .coming-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--gold);
+      color: #fff;
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+      margin-top: 0.5rem;
+      width: fit-content;
+    }
+
+    /* ── RESUME ── */
+    #resume {
+      background: var(--navy);
+      text-align: center;
+      padding: 5rem 4rem;
+    }
+
+    #resume .section-label { color: var(--gold); }
+    #resume .section-title { color: #fff; margin-bottom: 1rem; }
+    #resume p { color: #9ab3cc; font-size: 1rem; max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.7; }
+
+    .btn-gold {
+      display: inline-block;
+      padding: 0.9rem 2.2rem;
+      background: var(--gold);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-gold:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+      max-width: 1000px;
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding: 0.85rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 5px;
+      background: var(--card-bg);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: border-color 0.2s;
+      outline: none;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--accent); }
+
+    .form-group textarea { min-height: 120px; }
+
+    .form-submit {
+      padding: 0.9rem 2rem;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: background 0.2s;
+      align-self: flex-start;
+    }
+    .form-submit:hover { background: var(--blue); }
+
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; padding-top: 0.5rem; }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .contact-icon {
+      width: 40px; height: 40px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-item-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem; }
+    .contact-item-value { font-size: 0.95rem; color: var(--navy); font-weight: 500; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: #6b8aaa;
+      text-align: center;
+      padding: 2rem 4rem;
+      font-size: 0.82rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; gap: 2rem; }
+      .hero::before { display: none; }
+      section { padding: 4rem 2rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      #resume { padding: 4rem 2rem; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .nav-links a { font-size: 0.75rem; }
+      section { padding: 3.5rem 1.5rem; }
+      .hero { padding: 6rem 1.5rem 2.5rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Cheryl Sale</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#resume">Resume</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Data Science Portfolio</p>
+    <h1 class="hero-name">Cheryl <em>Sale</em></h1>
+    <p class="hero-desc">
+      BS Data Science candidate at IU Indianapolis turning complex data into clear, 
+      actionable insights — with a focus on statistical modeling and data visualization.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div>
+        <div class="stat-label">Focus Area</div>
+        <div class="stat-value">Statistical Modeling</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🎓</div>
+      <div>
+        <div class="stat-label">Degree</div>
+        <div class="stat-value">BS Data Science — GPA 3.5</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">💻</div>
+      <div>
+        <div class="stat-label">Primary Languages</div>
+        <div class="stat-value">Python · R · SQL</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📍</div>
+      <div>
+        <div class="stat-label">Location</div>
+        <div class="stat-value">Indianapolis, IN</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">The story behind the data</h2>
+      <div class="divider"></div>
+      <div class="about-body">
+        <p>
+          I'm a Data Science student at Indiana University Indianapolis, graduating Fall 2026 — 
+          and I came to this field by a path that's anything but straight. Before returning to 
+          school, I spent years working in high-paced restaurant and bar environments where 
+          quick thinking, pattern recognition, and reading people were essential every shift.
+        </p>
+        <p>
+          Then I took time away from work to raise my family. Returning to school as a 
+          non-traditional student while managing a household pushed me to work smarter, 
+          stay disciplined, and find meaning in every assignment. I bring that same 
+          intentionality to every dataset I work with.
+        </p>
+        <p>
+          I'm drawn to questions that have real-world stakes — understanding how major 
+          disruptions affect economies, behaviors, and industries. My work this summer 
+          is focused on building a hands-on portfolio that demonstrates not just technical 
+          skill, but the ability to ask the right questions of data.
+        </p>
+      </div>
+    </div>
+    <div>
+      <p class="skills-title">Technical Skills</p>
+      <div class="skills-grid">
+        <div class="skill-pill">Python</div>
+        <div class="skill-pill">R</div>
+        <div class="skill-pill">SQL</div>
+        <div class="skill-pill">pandas</div>
+        <div class="skill-pill">NumPy</div>
+        <div class="skill-pill">tidyverse</div>
+        <div class="skill-pill">ggplot2</div>
+        <div class="skill-pill">Tableau</div>
+        <div class="skill-pill">Excel</div>
+        <div class="skill-pill">Regression</div>
+        <div class="skill-pill">Data Viz</div>
+        <div class="skill-pill">Stat Analysis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header">
+    <div>
+      <p class="section-label">Work</p>
+      <h2 class="section-title">Projects</h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A growing collection of data science work built during my studies and independent exploration.</p>
+    </div>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- Project 1 — existing -->
+    <div class="project-card">
+      <div class="project-card-top">
+        <p class="project-category">Regression Analysis</p>
+        <h3 class="project-title">COVID-19 Impact on Box Office Revenue</h3>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">
+          Applied multiple linear regression to examine the relationship between 
+          pre- and post-COVID movie revenue. Explored how the pandemic reshaped 
+          audience behavior and studio release strategies using publicly available 
+          box office datasets.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">pandas</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">Linear Regression</span>
+          <span class="tag">Data Visualization</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/cherylsale" class="project-link" target="_blank">→ View on GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placeholder cards -->
+    <div class="project-card coming-soon">
+      <div class="project-card-top">
+        <p class="project-category">Coming Soon</p>
+        <h3 class="project-title">Project 2</h3>
+        <span class="coming-badge">In Progress</span>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">More projects are on the way this summer. Check back soon!</p>
+        <div class="project-tags">
+          <span class="tag">TBD</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card coming-soon">
+      <div class="project-card-top">
+        <p class="project-category">Coming Soon</p>
+        <h3 class="project-title">Project 3</h3>
+        <span class="coming-badge">In Progress</span>
+      </div>
+      <div class="project-body">
+        <p class="project-desc">More projects are on the way this summer. Check back soon!</p>
+        <div class="project-tags">
+          <span class="tag">TBD</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- RESUME -->
+<section id="resume">
+  <p class="section-label">Resume</p>
+  <h2 class="section-title">Want the full picture?</h2>
+  <p>Download my resume for a complete overview of my education, skills, and experience.</p>
+  <a href="Cheryl_Sale_Resume.docx" download class="btn-gold">⬇ Download Resume</a>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div>
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">Let's connect</h2>
+      <div class="divider"></div>
+      <p class="section-subtitle" style="margin-bottom:2rem;">
+        I'm actively looking for data science internship opportunities. 
+        If you'd like to chat, feel free to reach out!
+      </p>
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-value">changer@iu.edu</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-item-label">Location</div>
+            <div class="contact-item-value">Indianapolis, IN</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🐙</div>
+          <div>
+            <div class="contact-item-label">GitHub</div>
+            <div class="contact-item-value"><a href="https://github.com/cherylsale" target="_blank" style="color:var(--accent);text-decoration:none;">github.com/cherylsale</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="Jane Smith" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Your Email</label>
+          <input type="email" id="email" placeholder="jane@company.com" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" placeholder="Hi Cheryl, I'd love to chat about..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message →</button>
+        <p id="form-status" style="font-size:0.85rem;color:var(--accent);display:none;margin-top:0.5rem;">
+          ✓ Thanks! I'll be in touch soon.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Cheryl Sale · Indianapolis, IN · <a href="mailto:changer@iu.edu">changer@iu.edu</a></p>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('form-status').style.display = 'block';
+    e.target.reset();
+  }
+
+  // Subtle scroll reveal for cards
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.project-card, .stat-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, box-shadow 0.25s';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
